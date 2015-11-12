@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LearningProject.Properties
+namespace SuperHeroSchool.Properties
 {
 
 

@@ -3,110 +3,115 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using SuperHeroSchool.Models;
+using System.Diagnostics;
+using System.IO;
 
-namespace LearningProject
+namespace SuperHeroSchool
 {
     /// <summary>
-    /// If your reading this source code, you will only find that it's
-    /// a personal practice drill - a speed drill to practice doing basic c# stuff
-    /// any coherency you find in here is coincidental!
-    /// at time of writing this project just has answers to differen random problems I found online.
-    /// Why on earth is it on github? My convenience as I work on multiple computers at home
-    /// and I like having a historical note of where I floundered about learning stuff.
+    /// Welcome to Superhero school. It's a project created solely to learn how to do stuff. Various basic concepts are tried out
+    /// including the latest C#6 syntax. As I practice I'll add more features. Eventually there will be a parallel MVC 5 app.
+    /// All this app should do at the moment is try to build a school of superheroes with their grades. A chart should be added soon as well.,
     /// </summary>
     public partial class MainWindow : Window
-    {
+        {
+        private List<StudentClass> _superHeroSchool;
+        public  List<StudentClass> SuperHeroSchool
+            {
+            get { return _superHeroSchool; }
+            set { _superHeroSchool = _superHeroSchool ??   BuildSchool(); }
+            }
+        private List<string> Classnames = new List<string>() { "AngelWing", "Archetype", "MetaChron", "HeirArch" };
+        
         public MainWindow()
         {
             InitializeComponent();
-            StringBuilder sb = new StringBuilder(); // Not strictly necessary, could just update a string or the textbox directly
-            int[] numbers = new int[] { 1, 22, 5, 4, 3, 43, 32, 2, 6, 6, 7, 5, 5, 8, 6 };
-            int findme = 5;
-            //how many ways to count the occurrence of a number can you find ?
-            //old school method one - beware of index out of range!
-            int o = 0;
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                if (numbers[i] == findme) { o += 1; }
-            }
-            sb.Append($"Old school if: {o}");
-            //old school while
-            o = 0;
-            int a = 0;
-            while (a++ < numbers.Length - 1)
-            {
-                if (numbers[a] == findme) { o += 1; }
-            }
-            //Linq!
-            int[] n = numbers.Where(x => x == findme).ToArray();
-            sb.Append($"\n Old school while: {n.Count()}");
-            sb.Append(string.Format("\nLINQ: {0}", o)); //swapped to format to practice old style interpolation
-            sb.Append("\n\nAnd now we list student grades! \n \n");
-            //Why oh why did I name it Fred?!
-            students students = new students();
-            foreach(student student in students.Students)
-            {
-                sb.Append($"\nStudent Name:{student.Name} \n");
-                foreach (var grade in student.Grades)
-                {
-                    sb.Append($"{grade.Key} : {grade.Value} \n");
-                }
-            }
            
-            Fred.Text = sb.ToString();
+            StringBuilder sb = new StringBuilder(); // Not strictly necessary, could just update a string or the textbox directly
+            _superHeroSchool = BuildSchool(); //for now.
+            TitleText.AppendText("Welcome To the Super Hero Academy Student Grades Application");
+
         }
-
-    }
-    //lets wrap the students up into nice groups
-    public class StudentClass
-    {
-        string _name = "";
-        public string Name { get { return _name; } set { _name = value; } }
-        students _students = new students();
-        public students Students { get{ return _students; } set { _students = value; } }
-        public StudentClass(students students)
-        {
-            _students = students;
-        }
-    }
-
-
-    public class students
-    {
-        List<student> _students = new List<student>();
-        public List<student> Students { get { return _students; } set { _students = value; } }
-        public students()
-        {
-            List<string> studentNames = new List<string>() { "Fred", "Wilmer", "Barney", "Megatron", "Optimus Prime", "Thor", "Superman", "batman" };
-            foreach (string name in studentNames)
+        /// <summary>
+        /// Here I'm reading in a file of superheroes, turn them into good little students and randomly assign them to classes.
+        /// At time of writing the function is doing too much but it's an exercise - refactoring will be another exerise.
+        /// </summary>
+        private List<StudentClass> BuildSchool()
             {
-                buildGrades(name);
-            }
-        }
+            //When I come back need to iterate through student list and randomly assign each to one of the classes. Must check what the numbers are for the class first
+            //or I could randomise the list into another list or even better an array perhaps? then just cycle through the classes instead.
+            //there is more than one way to skin this cat eh?
+            Dictionary<int, StudentClass> ClassAssign = new Dictionary<int, StudentClass>();
+            Classnames.ForEach(name => ClassAssign.Add(Classnames.IndexOf(name), new StudentClass(name,  new List<student>())) ); 
+            string path = @"superheroes.txt";
+            Dictionary<int,student> heroes = new Dictionary<int, student>(); 
+            int i = 0;
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+                {
+                StreamReader sr = new StreamReader(fs);
+                while (! sr.EndOfStream)
+                    {
+                    heroes.Add(i,new student(sr.ReadLine()));
+                    i++;
+                    }
+                }
+            Random AssignmentNumber = new Random(42);
+            var OriginalList = shuffleStudents(heroes.Select(x => x.Value).ToList()).ToArray();
+            int classkey = 0;
+            int counter = OriginalList.Count();
+            //distribute the heroes evenly
+            for (int schoolIdx = 0; schoolIdx < counter; schoolIdx++ )
+                {
+                    counter = OriginalList.Count();
+              
+                    classkey = classkey == 4 ?   0 : classkey;
 
-        private void buildGrades(string name)
-        {
-            List<string> subjects = new List<string>() { "English", "Maths", "Science", "Art", "Psychology" };
-            Random GradeChoices = new Random();
-            student student = new student(name, new Dictionary<string, int>());
-            foreach (string subject in subjects)
+                    ClassAssign[classkey].Students.Add(OriginalList[schoolIdx]);
+                    classkey++;
+                }
+            return ClassAssign.Select(x => x.Value).ToList();
+            // I may not even need  a dictionary here but until I've done the class assignment i'll just project it to the list.
+            //must do this at the end _superHeroSchool.Add(_class ); 
+            }
+
+        /// <summary>
+        /// A classic sort of a problem really. Given a list, can you randomly shuffle it into an array but be sure that  the array is full?
+        /// My first approach, commented out, does not guarantee this at all! 
+        /// </summary>
+        /// <param name="intake"></param>
+        /// <returns></returns>
+        private List<student> shuffleStudents(List<student> intake)
             {
-                student.Grades.Add(subject, GradeChoices.Next(1, 5));
+            Random ind = new Random();
+            var inputStudents = intake.ToArray();
+            student[] students = new student[intake.Count];
+            int s = 0;
+            while (students.Any(x => x == null) && inputStudents.Length >0)
+                {
+                int r =  ind.Next(0, inputStudents.Length)  ;
+                
+                if (students[r] == null)
+                        {
+                            students[r] = inputStudents[s]; //do this here so I can get s = 0 in the array
+                        }
+                    else
+                        {
+                            List<int> nulls = new List<int>();
+                            for (int _i = 0; _i < inputStudents.Count(); _i++) if (students[_i] == null)  nulls.Add(_i); //get a list of null indices
+                            if (nulls.Count() > 0) students[nulls.First()] = inputStudents[s]; //fill up the holes
+                        }
+               s++;
+               s = s < inputStudents.Length ? s : 0; //increment the input index but don't go outside the bounds of the array!
+                  }
+          
+            return students.ToList();
             }
-            _students.Add(student);
+       
         }
-    }
-    public class student
-    {
-        string _name = "";
-        public string Name { get { return _name; } set { _name = value; } }
+ 
 
-        Dictionary<string, int> _grades = new Dictionary<string, int>();
-        public Dictionary<string, int> Grades { get { return _grades; } set { _grades = value; } }
-        public student(string name, Dictionary<string, int> grades)
-        {
-            Grades = grades;
-            Name = name;
-        }
-    }
+
+
+   
     }

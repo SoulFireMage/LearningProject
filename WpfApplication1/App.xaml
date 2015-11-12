@@ -1,7 +1,7 @@
-﻿<Application x:Class="LearningProject.App"
+﻿<Application x:Class="SuperHeroSchool.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LearningProject"
+             xmlns:local="clr-namespace:SuperHeroSchool"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
