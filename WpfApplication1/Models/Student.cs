@@ -4,16 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperHeroSchool.Models
+namespace SuperHeroSchool
     {
-    public class student
+    public class Student
         {
         string _name = "";
         public string Name { get { return _name; } set { _name = value; } }
 
         Dictionary<string, int> _grades = new Dictionary<string, int>();
         public Dictionary<string, int> Grades { get { return _grades; } set { _grades = _grades ?? value; } }
-        public student(string name)
+
+        public Student()
+            {
+ 
+            }
+        public Student(string name)
             {
             Name = name;
             buildGrades();
@@ -30,7 +35,7 @@ namespace SuperHeroSchool.Models
                 }
              
             }
-        //public student(string name, Dictionary<string, int> grades)
+        //public Student(string name, Dictionary<string, int> grades)
         //    {
         //    Grades = grades;
         //    Name = name;

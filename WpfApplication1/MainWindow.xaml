@@ -14,6 +14,26 @@
             </LinearGradientBrush>
          
     </Window.Background>
+    
+     <!--<Window.Resources>
+        <DataTemplate x:Key="StudentDisplay" DataType="{x:Type local:Student}">
+            <TextBlock Text="{Binding Path=Name}">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem  Header="Rename"   CommandParameter="{Binding Rename}">
+                        </MenuItem>
+
+                        <ContextMenu.ItemContainerStyle>
+                            <Style TargetType="MenuItem" >
+
+                            </Style>
+                        </ContextMenu.ItemContainerStyle>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+        </DataTemplate>
+  </Window.Resources>--> 
+    
     <Grid x:Name="main">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
@@ -76,9 +96,13 @@
                         </Canvas>
                     </Canvas>
                 </Viewbox>
-                <TreeView x:Name="StudentTree" Grid.Row="1" Padding="5" Margin="5" Grid.ColumnSpan="2">
+                <TextBox x:Name="Wilma" Margin="5" Grid.Row="1"/>
+                <!--<TreeView x:Name="StudentTree" Grid.Row="1" 
+                          ItemTemplate="{Binding}"
+                          ItemsSource="{Binding StudentClass}"
+                          Padding="5" Margin="5" Grid.ColumnSpan="2">
 
-                </TreeView>
+                </TreeView>-->
             </Grid>
 
         </Grid>

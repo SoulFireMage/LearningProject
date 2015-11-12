@@ -1,4 +1,4 @@
-﻿using SuperHeroSchool.Models;
+﻿ 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace SuperHeroSchool
             int[] n = numbers.Where(x => x == findme).ToArray();
             sb.Append($"\n Old school while: {n.Count()}");
             sb.Append(string.Format("\nLINQ: {0}", o)); //swapped to format to practice old style interpolation
-            sb.Append("\n\nAnd now we list student grades! \n \n");
+            sb.Append("\n\nAnd now we list Student grades! \n \n");
             //Why oh why did I name it Fred?!
             }
 
@@ -73,9 +73,9 @@ public static class DreadedUtils
     /// <param name="incomingArray"></param>
     /// <param name="Removeindex"></param>
     /// <returns></returns>
-    public static student[] RemoveIndices(this student[] incomingArray, int Removeindex)
+    public static Student[] RemoveIndices(this Student[] incomingArray, int Removeindex)
         {
-        student[] _temp = new student[incomingArray.Length - 1];
+        Student[] _temp = new Student[incomingArray.Length - 1];
         int i = 0;
         int j = 0;
         while (i < incomingArray.Length)
@@ -90,10 +90,10 @@ public static class DreadedUtils
         return _temp;
         }
 
-    public static student[] AddIndices(this student[] incomingArray, student newItem)
+    public static Student[] AddIndices(this Student[] incomingArray, Student newItem)
         {
 
-        student[] _temp = new student[incomingArray.Length];
+        Student[] _temp = new Student[incomingArray.Length];
         _temp[incomingArray.Length] = newItem;
 
         return _temp;
