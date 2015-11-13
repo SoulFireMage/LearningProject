@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows; 
+using System.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace SuperHeroSchool
 {
@@ -19,6 +21,8 @@ namespace SuperHeroSchool
 
         public static RoutedCommand ViewStudent = new RoutedCommand();
         private School _school = new School();
+        private Polyline myPolyline;
+
         public School School { get { return _school; }  }
 
         public MainWindow()
@@ -44,29 +48,53 @@ namespace SuperHeroSchool
 
             Wilma.Text = sb.ToString();
         }
+
+          
+        private void Drawing_MouseDown(object sender, MouseButtonEventArgs e)
+            {
+            myPolyline = new Polyline();
+                {  
+            
+
+
+            
+                {
+                points.Add(new Point(e.MouseDevice.GetPosition(Drawing).X, e.MouseDevice.GetPosition(Drawing).Y));
+                if (points.Count() > 1000) break;
+                }
+           
+            Drawing.Children.Add(myPolygon);
+            }
+           
+
+        private void Drawing_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+            {
+            Drawing_MouseDown(sender, e);
+            }
+
         /// <summary>
         /// Here I'm reading in a file of superheroes, turn them into good little students and randomly assign them to classes.
         /// At time of writing the function is doing too much but it's an exercise - refactoring will be another exerise.
         /// </summary>
-       
-       
 
-    //       'Private Sub OnItemSelected(sender As Object, e As RoutedEventArgs) Handles CarePlanTreeView.SelectedItemChanged
-    //'    If IsNothing(CarePlanTreeView.SelectedItem) = False Then
-    //'        Dim context = CarePlanTreeView.SelectedItem
-    //'        Select Case context.[GetType]
-    //'            Case GetType(CarePlan)
-    //'                GetCarePlanContext(context)
-    //'            Case GetType(Field)
-    //'                GetFieldRcpdContext(context)
-    //'            Case GetType(Rcpd)
-    //'                GetRcpdContext(context)
-    //'            Case Else
-    //'                MessageBox.Show(CarePlanTreeView.SelectedItem.ToString())
-    //'        End Select
-    //'    End If
-    //'End Sub
-       
+
+
+        //       'Private Sub OnItemSelected(sender As Object, e As RoutedEventArgs) Handles CarePlanTreeView.SelectedItemChanged
+        //'    If IsNothing(CarePlanTreeView.SelectedItem) = False Then
+        //'        Dim context = CarePlanTreeView.SelectedItem
+        //'        Select Case context.[GetType]
+        //'            Case GetType(CarePlan)
+        //'                GetCarePlanContext(context)
+        //'            Case GetType(Field)
+        //'                GetFieldRcpdContext(context)
+        //'            Case GetType(Rcpd)
+        //'                GetRcpdContext(context)
+        //'            Case Else
+        //'                MessageBox.Show(CarePlanTreeView.SelectedItem.ToString())
+        //'        End Select
+        //'    End If
+        //'End Sub
+
         }
  
 

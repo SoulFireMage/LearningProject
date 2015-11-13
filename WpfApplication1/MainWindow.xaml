@@ -63,10 +63,17 @@
                     <RowDefinition Height="70*"/>
                 </Grid.RowDefinitions>
                 <TextBox x:Name="Fred" Margin="5" Padding="5" Grid.Row="0"/>
+                <Canvas x:Name="Drawing"   Margin="5" Grid.Row="1" MouseDown="Drawing_MouseDown" MouseLeftButtonDown="Drawing_MouseLeftButtonDown">
+                    <Canvas.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFF7F8F9" Offset="0"/>
+                            <GradientStop Color="#FF62A0DC" Offset="0.899"/>
+                        </LinearGradientBrush>
+                    </Canvas.Background>
+                </Canvas>  
                 <!--<DataGrid Margin="5"></DataGrid>-->
-                <Viewbox Grid.Row ="1" Margin="5">
-
-                </Viewbox>
+               
+              
             </Grid>
             <!--candidate for a control right here!-->
             <Grid x:Name="SearchGrid" Grid.Column="0" Grid.Row="0">
@@ -96,7 +103,7 @@
                         </Canvas>
                     </Canvas>
                 </Viewbox>
-                <TextBox x:Name="Wilma" Margin="5" Grid.Row="1"/>
+                <TextBox x:Name="Wilma" Margin="5" Grid.Row="1" Grid.ColumnSpan="2"/>
                 <!--<TreeView x:Name="StudentTree" Grid.Row="1" 
                           ItemTemplate="{Binding}"
                           ItemsSource="{Binding StudentClass}"
