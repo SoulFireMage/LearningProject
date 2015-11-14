@@ -63,7 +63,7 @@
                     <RowDefinition Height="70*"/>
                 </Grid.RowDefinitions>
                 <TextBox x:Name="Fred" Margin="5" Padding="5" Grid.Row="0"/>
-                <Canvas x:Name="Drawing"   Margin="5" Grid.Row="1" MouseDown="Drawing_MouseDown" MouseLeftButtonDown="Drawing_MouseLeftButtonDown">
+                <Canvas x:Name="Drawing"   Margin="5" Grid.Row="1" MouseLeftButtonDown="Drawing_MouseLeftButtonDown"  >
                     <Canvas.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FFF7F8F9" Offset="0"/>
